@@ -20,6 +20,7 @@ public class BankAccount implements BankAccountInterface {
         this.accountType = accountType;
     }
 
+    // getters and setters
     public String getAccountType() {
         return accountType;
     }
@@ -40,6 +41,7 @@ public class BankAccount implements BankAccountInterface {
         this.balance = amount;
     }
 
+    //update balance on withdrawal and deposit
     public void updateBalance(double amount) {
         this.balance += amount;
     }
@@ -48,35 +50,28 @@ public class BankAccount implements BankAccountInterface {
         return String.format("%09d", accountCounter++);
     }
 
+    //create transaction
     public void createTransaction(String accountNumber, double amount, Date timestamp, String transactionType) {
         Transaction newTransaction = new Transaction(this.accountNumber, amount, timestamp, transactionType);
         transactionHistory.addTransaction(newTransaction);
     }
 
+    //Method to return a list of last N transactions
     public List<Transaction> getLastNTransactions(int counter) {
         List<Transaction> result = new ArrayList<>();
 
         Transaction lastTransaction = transactionHistory.tail;
         int printed = 0;
 
-        if (counter <= 0) {
-            System.out.println("Invalid number of transactions to retrieve.");
-            return result;
-        }
-
         while (lastTransaction != null && printed < counter) {
             result.add(lastTransaction);
             lastTransaction = lastTransaction.prev;
             printed++;
         }
-
-        if (printed == 0) {
-            System.out.println("No transactions found.");
-        }
-
         return result;
     }
 
+    //Methods common to all subclasses forced by Interface
     @Override
     public String deposit(double amount) {
         return "";
